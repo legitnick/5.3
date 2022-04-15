@@ -15,8 +15,11 @@ protected:
 };
 class Node {
 	Node* next ;
-	double data = NULL;
+	int data = NULL;
 public:
+	Node(int data) {
+		this->data = data;
+	}
 	friend class Link;
 };
 class Link {

@@ -1,17 +1,14 @@
 #include "5.3.h"
 bool Link::Add(int data) {
-	Node* node = new Node();
 	if (!i) {
 		i++; 
-		head = new Node();
-		head->data = data;
-		head->next = node;
-		curr = node;
+		head = new Node(data);
+		curr = head;
 		return true;
 	}
 	if (i!=256) {
+		Node* node = new Node(data);
 		i++; 
-		curr->data = data;
 		curr->next = node;
 		curr = node;
 		return true;
@@ -35,7 +32,6 @@ void Link::GetAnswer() {
 	i++;
 	answer->sum += head->data;
 	head = head->next;
-	if (head == nullptr) break; 
 	}
 }
 string Link::GetN()
@@ -47,7 +43,7 @@ string Link::GetAVG()
 
 {
 	GetAnswer();//to get this answer struct 
-	return string("Average " + to_string(answer->sum/(double)i) + "\n");
+	return i ? (string("Average " + to_string(answer->sum/(double)i) + "\n")): "Not enough elements\n";
 }
 
 string Link::GetMINIMAX()
@@ -90,4 +86,5 @@ int main()
 	cout << link.GetMINIMAX();
 	cout << link.GetFourth();
 	cout << link.GetN();
+	while (true);
 }
