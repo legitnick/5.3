@@ -2,30 +2,92 @@
 bool Link::Add(int data) {
 	Node* node = new Node();
 	if (!i) {
-		before_min = max = min = data;
-
+		i++; 
+		head = new Node();
+		head->data = data;
+		head->next = node;
+		curr = node;
+		return true;
 	}
 	if (i!=256) {
-		node->data = data;
-		i++;
+		i++; 
+		curr->data = data;
 		curr->next = node;
 		curr = node;
-		if (data > max)max = data;
-		if (data < min) {
-			min = data;
-			before_min = prev;
-		}
-		prev = data;
-		if (i == 3)fourth = data;
-		sum += data;
 		return true;
 	}
 
 	return false;
 }
- 
- 
-int main()
+void Link::GetAnswer() {
+	curr = head;
+	int i = 0;
+	answer = new Answer();
+	while (head!= nullptr) { 
+		
+	if (head->data > answer->max)answer->max = head->data;
+	if (head->data < answer->min) {
+		answer->min = head->data;
+		if(i)answer->before_min = answer->prev;
+	}
+	answer->prev = head->data;
+	if (i == 3)answer->fourth =head-> data;
+	i++;
+	answer->sum += head->data;
+	head = head->next;
+	if (head == nullptr) break; 
+	}
+}
+string Link::GetN()
+{
+	return  string("Number of elements " + to_string(i)+"\n");
+}
+
+string Link::GetAVG()
+
+{
+	GetAnswer();//to get this answer struct 
+	return string("Average " + to_string(answer->sum/(double)i) + "\n");
+}
+
+string Link::GetMINIMAX()
+{
+	return i?(string("Minimum " + to_string(answer->min) + " Maximum " + to_string(answer->max) + "\n")):"Not enough elements for min and max elements";
+}
+
+string Link::GetFourth()
+{
+
+	return i>3?string("Fourth " + to_string(answer->fourth) + "\n"): "Not enough elements\n";
+}
+
+string Link::GetBeforeMIN()
 { 
 
+	return 
+		(answer->before_min==NULL) ? "Not enough elements, or the smallest element is first\n" : string("The element before the minimum element " + to_string(answer->before_min) + "\n");
+}
+ 
+void Fill(Link& link) {
+	int i = 0;
+	int value = INT_MIN;
+	while (!cin.fail())
+	{
+		if (i && i < 256) {
+			link.Add(value);
+		}
+		cout << "Enter a value, type a string to save ";
+		cin >> value;
+		i++;
+	}
+ }
+int main()
+{
+	Link link;
+	Fill(link);
+	cout << link.GetAVG();
+	cout << link.GetBeforeMIN();
+	cout << link.GetMINIMAX();
+	cout << link.GetFourth();
+	cout << link.GetN();
 }
